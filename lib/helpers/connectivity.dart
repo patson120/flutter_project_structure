@@ -5,7 +5,6 @@ class CheckConnectivityPlus {
   static Future<bool> isInternetConnection() async {
     ConnectivityResult connectivityResult =
         await Connectivity().checkConnectivity();
-
     if (connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.mobile) {
       return true;

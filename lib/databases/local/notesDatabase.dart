@@ -45,6 +45,7 @@ class NotesDatabase {
 
   // Implémentation du CRUD
 
+  // Méthode permettant la création d'une note en base données
   Future<Note> create(Note note) async {
     final db = await instance.database;
 
@@ -66,6 +67,7 @@ class NotesDatabase {
     return note.copy(id: id);
   }
 
+  // Méthode permettant de lire les informations sur une note en base de données
   Future<Note?> readNote(int id) async {
     final db = await instance.database;
 
@@ -82,6 +84,7 @@ class NotesDatabase {
     return null;
   }
 
+  // Méthode permettant de lister toutes les informations de la base de données
   Future<List<Note>> readAllNotes() async {
     final db = await instance.database;
 
@@ -91,11 +94,25 @@ class NotesDatabase {
     return result.map((json) => Note.fromMap(json)).toList();
   }
 
+  // Méthode permettant de faire la mise à jour des informations dans la base de données
   Future<int> update(Note note) async {
     final db = await instance.database;
-    return db.update(tableNotes, note.toMap());
+    return db.update(
+      tableNotes,
+      note.toMap(),
+      where: "${NoteFields.id} = ?",
+      whereArgs: [note.id],
+    );
   }
 
+// Méthode de suppression des données de la base de données
+  Future<int> delete(int id) async {
+    final db = await instance.database;
+    return await db
+        .delete(tableNotes, where: "${NoteFields.id} = ?", whereArgs: [id]);
+  }
+
+  // Méthode de fermeture de la base de données
   Future close() async {
     final db = await instance.database;
     db.close();
