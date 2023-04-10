@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_structure/features/auth/views/home_view.dart';
 import 'package:project_structure/theme/App_theme.dart';
 
 void main() {
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Note Book',
       theme: AppTheme.theme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(title: 'Note Book'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

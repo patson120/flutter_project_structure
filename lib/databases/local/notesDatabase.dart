@@ -17,14 +17,12 @@ class NotesDatabase {
 
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
-
     final path = p.join(dbPath, filePath);
-
     return await openDatabase(path, version: 1, onCreate: _onCreateDB);
   }
 
   Future _onCreateDB(Database db, int version) async {
-    final idType = "INTERGER PRIMARY KEY AUTOINCREMENT";
+    final idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
     final booleanType = "BOOLEAN NOT NULL";
     final integerType = "INTEGER NOT NULL";
     final textType = "TEXT NOT NULL";
@@ -37,8 +35,7 @@ class NotesDatabase {
       ${NoteFields.number} $integerType,
       ${NoteFields.title} $textType,
       ${NoteFields.description} $textType,
-      ${NoteFields.time} $textType,
-
+      ${NoteFields.time} $textType
     )
     """);
   }
