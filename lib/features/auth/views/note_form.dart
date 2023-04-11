@@ -6,7 +6,11 @@ import 'package:project_structure/databases/local/notesDatabase.dart';
 import 'package:project_structure/theme/Palette.dart';
 
 class NoteForm extends StatefulWidget {
-  const NoteForm({super.key});
+  final Note? note;
+  const NoteForm({
+    super.key,
+    this.note,
+  });
 
   @override
   State<NoteForm> createState() => _NoteFormState();
@@ -18,6 +22,11 @@ class _NoteFormState extends State<NoteForm> {
   final TextEditingController numberController = TextEditingController();
   @override
   void initState() {
+    if (widget.note != null) {
+      titleController.text = widget.note!.title;
+      numberController.text = widget.note!.number.toString();
+      descriptionController.text = widget.note!.description;
+    }
     super.initState();
   }
 
@@ -45,6 +54,35 @@ class _NoteFormState extends State<NoteForm> {
     // Find the ScaffoldMessenger in the widget tree
     // and use it to show a SnackBar.
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<void> updateNote() async {
+    if (titleController.text.isEmpty) {
+      showSnackBar("Le titre ne peut être vide");
+      return;
+    }
+
+    if (numberController.text.isEmpty) {
+      showSnackBar("Le niveau ne peut être vide");
+      return;
+    }
+
+    if (descriptionController.text.isEmpty) {
+      showSnackBar("La description ne peut être vide");
+      return;
+    }
+
+    Note note = Note(
+        id: widget.note!.id,
+        isImportant: widget.note!.isImportant,
+        number: numberController.text.isNotEmpty
+            ? int.parse(numberController.text)
+            : 0,
+        title: titleController.text,
+        description: descriptionController.text,
+        createdTime: widget.note!.createdTime);
+    await NotesDatabase.instance.update(note);
+    Navigator.pop(context);
   }
 
   Future<void> addNote() async {
@@ -129,7 +167,11 @@ class _NoteFormState extends State<NoteForm> {
                   alignment: Alignment.topRight,
                   child: InkWell(
                     onTap: () async {
-                      await addNote();
+                      if (widget.note == null) {
+                        await addNote();
+                      } else {
+                        await updateNote();
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -137,9 +179,10 @@ class _NoteFormState extends State<NoteForm> {
                       decoration: BoxDecoration(
                           color: Palette.blueColor,
                           borderRadius: BorderRadius.circular(40)),
-                      child: const Text(
-                        "Ajouter",
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      child: Text(
+                        widget.note != null ? "Mettre à jour" : "Ajouter",
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ),
                   ),
