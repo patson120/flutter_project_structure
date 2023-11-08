@@ -151,7 +151,8 @@ class _NoteFormState extends State<NoteForm> {
                 ),
                 CustomTextField(
                   controller: numberController,
-                  hintText: "Niveau de difficulté",
+                  hintText: "Niveau de difficulté entre 1 et 3",
+                  maxLength: 2,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 20),

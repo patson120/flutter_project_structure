@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
         onPressed: () {
           Navigator.push(
             context,
@@ -83,7 +84,10 @@ class _HomePageState extends State<HomePage> {
           );
         },
         tooltip: 'Ajouter une note',
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

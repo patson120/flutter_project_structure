@@ -6,15 +6,16 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final int? maxLines;
   final Color? hintColor;
+  final int? maxLength;
   final TextInputType? keyboardType;
-  const CustomTextField({
-    super.key,
-    this.controller,
-    this.hintText,
-    this.maxLines,
-    this.hintColor,
-    this.keyboardType,
-  });
+  const CustomTextField(
+      {super.key,
+      this.controller,
+      this.hintText,
+      this.maxLines,
+      this.hintColor,
+      this.keyboardType,
+      this.maxLength});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CustomTextField extends StatelessWidget {
       ),
       keyboardType: keyboardType,
       maxLines: maxLines ?? 1,
+      maxLength: maxLength,
       decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
